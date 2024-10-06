@@ -34,9 +34,9 @@ To run this project, you will need:
   
   ```sql
   CREATE DATABASE hibernate_crud;
-  Update the Hibernate configuration file (src/hibernate.cfg.xml) with your database connection details:
   ```
-  
+
+  Update the Hibernate configuration file (src/hibernate.cfg.xml) with your database connection details:
   ```xml
   <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/hibernate_crud</property>
   <property name="hibernate.connection.username">your-username</property>
