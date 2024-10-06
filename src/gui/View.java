@@ -5,8 +5,14 @@
 package gui;
 
 import entity.User;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.UserModel;
 
@@ -16,13 +22,14 @@ import model.UserModel;
  */
 public class View extends javax.swing.JFrame {
 
+    int id;
+
     /**
      * Creates new form View
      */
     public View() {
         initComponents();
         loadUsers();
-
     }
 
     private void loadUsers() {
@@ -36,9 +43,34 @@ public class View extends javax.swing.JFrame {
             v.add(userDTO.getF_name());
             v.add(userDTO.getL_name());
             v.add(userDTO.getUsername());
-            v.add(userDTO.getDob());
+            v.add(new SimpleDateFormat("yyyy-MM-dd").format(userDTO.getDob()));
             model.addRow(v);
         }
+    }
+
+    private boolean validator() {
+        if (jTextField1.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Enter First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+            return false;
+        } else if (jTextField2.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Enter Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+            return false;
+        } else if (jTextField3.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Enter Username", "Warning", JOptionPane.WARNING_MESSAGE);
+            return false;
+        } else if (jDateChooser1.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Select Date Of Birth", "Warning", JOptionPane.WARNING_MESSAGE);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private void clear() {
+        jTextField1.setText(null);
+        jTextField2.setText(null);
+        jTextField3.setText(null);
+        jDateChooser1.setDate(null);
     }
 
     /**
@@ -58,18 +90,43 @@ public class View extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("jLabel1");
+        jLabel1.setText("First Name");
 
-        jLabel2.setText("jLabel1");
+        jLabel2.setText("Last Name");
 
-        jLabel3.setText("jLabel1");
+        jLabel3.setText("Username");
 
-        jLabel4.setText("jLabel1");
+        jLabel4.setText("DOB");
+
+        jButton1.setText("Add User");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Update User");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Delete User");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -78,16 +135,20 @@ public class View extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)
+                    .addComponent(jTextField2)
+                    .addComponent(jTextField3)
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4))
-                        .addGap(0, 261, Short.MAX_VALUE))
-                    .addComponent(jTextField2)
-                    .addComponent(jTextField3))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -107,20 +168,41 @@ public class View extends javax.swing.JFrame {
                 .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Id", "First Name", "Last Name", "Username", "DoB"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -130,7 +212,7 @@ public class View extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 748, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 728, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,6 +223,61 @@ public class View extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if (validator()) {
+            User user = new User();
+            user.setF_name(jTextField1.getText());
+            user.setL_name(jTextField2.getText());
+            user.setUsername(jTextField3.getText());
+            user.setDob(jDateChooser1.getDate());
+
+            UserModel.updateUser(user, this.id);
+            this.loadUsers();
+            this.clear();
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (validator()) {
+            User newUser = new User();
+            newUser.setF_name(jTextField1.getText());
+            newUser.setL_name(jTextField2.getText());
+            newUser.setUsername(jTextField3.getText());
+            newUser.setDob(jDateChooser1.getDate());
+
+            UserModel.saveUser(newUser);
+            this.loadUsers();
+            this.clear();
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        if (evt.getClickCount() == 2) {
+            int row = jTable1.getSelectedRow();
+
+            if (row != -1) {
+                this.id = Integer.parseInt(jTable1.getValueAt(row, 0).toString());
+                jTextField1.setText(jTable1.getValueAt(row, 1).toString());
+                jTextField2.setText(jTable1.getValueAt(row, 2).toString());
+                jTextField3.setText(jTable1.getValueAt(row, 3).toString());
+
+                try {
+                    Date date = new SimpleDateFormat("yyyy-MM-dd").parse(jTable1.getValueAt(row, 4).toString());
+                    jDateChooser1.setDate(date);
+                } catch (ParseException ex) {
+                }
+            }
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if (validator()) {
+            UserModel.deleteUser(this.id);
+            this.loadUsers();
+            this.clear();
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -178,6 +315,10 @@ public class View extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
